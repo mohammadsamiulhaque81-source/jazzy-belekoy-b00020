@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Browser Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- SEO & Google Safety Schema Meta Tags -->
+    <title>BECH DAA LO - Gen Z Local Marketplace | Safe & Direct Deals</title>
+    <meta name="description" content="BECH DAA LO - India's 100% verified peer-to-peer local marketplace. Buy & Sell Tech, Mobiles, Bikes & Books safely with direct chat. Zero advance payment fraud.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="BECH DAA LO - Verified Peer-to-Peer Marketplace">
+    <meta property="og:description" content="Direct buyer-seller connectivity. No middleman, no advance token scam. 100% Free & Verified.">
+
+    <!-- Schema.org Structured Data for Google Trust Signal -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "BECH DAA LO",
+      "alternateName": "BechDaalo Marketplace",
+      "url": "https://bechdaalo.com",
+      "description": "Safe peer-to-peer local marketplace connecting direct buyers and sellers.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://bechdaalo.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS Client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+        .urgent-glow { animation: pulseGlow 1.8s infinite; }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); border-color: #ef4444; }
+            50% { box-shadow: 0 0 22px rgba(239, 68, 68, 0.9); border-color: #f87171; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-purple-500 selection:text-white">
+
+    <!-- Gen Z Trust & Anti-Scam Banner -->
+    <div class="bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 text-white text-[11px] font-bold py-1.5 px-4 text-center tracking-wide flex items-center justify-center gap-2 shadow-inner">
+        <span>🛡️ 100% Direct P2P Platform</span>
+        <span class="hidden sm:inline">• Direct Buyer-Seller Connect</span>
+        <span class="hidden md:inline">• Zero Middleman Fees</span>
+        <span class="bg-black/30 text-emerald-300 px-2 py-0.5 rounded-full text-[10px] border border-emerald-400/40">⚡ Safe & Verified</span>
+    </div>
+
+    <!-- Top Navigation Header -->
+    <header class="bg-slate-950/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 tracking-wider cursor-pointer" onclick="location.reload()">BECH<span class="text-white">DAA</span>LO</span>
+                <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-emerald-500/30">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> LIVE
+                </span>
+            </div>
+
+            <div class="hidden sm:flex items-center space-x-2 bg-slate-900 rounded-2xl px-3 py-2 border border-slate-800">
+                <button onclick="autoDetectUserLocation()" title="Auto Detect Location" class="text-xs hover:scale-125 transition">🎯</button>
+                <select id="headerCityFilter" onchange="filterListings()" class="bg-transparent text-xs font-bold text-slate-300 focus:outline-none cursor-pointer">
+                    <option value="All" class="bg-slate-900">Poora India 🇮🇳</option>
+                    <option value="Patna" class="bg-slate-900">Patna</option>
+                    <option value="Delhi" class="bg-slate-900">Delhi / NCR</option>
+                    <option value="Mumbai" class="bg-slate-900">Mumbai</option>
+                    <option value="Bangalore" class="bg-slate-900">Bangalore</option>
+                    <option value="Kolkata" class="bg-slate-900">Kolkata</option>
+                    <option value="Lucknow" class="bg-slate-900">Lucknow</option>
+                </select>
+            </div>
+
+            <!-- Search + Price Range Filter -->
+            <div class="flex-grow max-w-lg flex items-center gap-2">
+                <div class="relative w-full">
+                    <input type="text" id="searchInput" oninput="filterListings()" placeholder="iPhone, Laptop, PS5, Books..." class="w-full pl-4 pr-10 py-2 bg-slate-900 border border-slate-800 text-white rounded-2xl focus:outline-none focus:border-purple-500 text-xs font-medium placeholder-slate-500 transition">
+                    <span class="absolute right-3 top-2 text-slate-500">🔍</span>
+                </div>
+                
+                <!-- Price Range Filter Inputs -->
+                <div class="hidden lg:flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-2xl px-2 py-1">
+                    <span class="text-[10px] text-slate-400 font-bold">₹</span>
+                    <input type="number" id="minPriceInput" oninput="filterListings()" placeholder="Min" class="w-14 bg-transparent text-xs text-white focus:outline-none font-bold placeholder-slate-600">
+                    <span class="text-slate-600 text-xs">-</span>
+                    <input type="number" id="maxPriceInput" oninput="filterListings()" placeholder="Max" class="w-14 bg-transparent text-xs text-white focus:outline-none font-bold placeholder-slate-600">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <div id="authBtnContainer">
+                    <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-xl font-bold border border-slate-800 text-xs flex items-center gap-1 transition">
+                        <span>👤</span> <span id="userStatusText">Login</span>
+                    </button>
+                </div>
+
+                <button onclick="toggleWishlistFilter()" id="wishlistFilterBtn" class="bg-slate-900 hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-xl font-bold border border-slate-800 text-xs flex items-center gap-1 transition">
+                    <span id="wishlistIcon">❤️</span> <span class="hidden sm:inline">Wishlist</span>
+                </button>
+
+                <button onclick="openInboxModal()" class="bg-slate-900 hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-xl font-bold border border-slate-800 text-xs flex items-center gap-1 transition">
+                    <span>💬</span> <span class="hidden sm:inline">Chats</span>
+                </button>
+                
+                <button onclick="checkAuthAndOpenSellModal()" class="bg-gradient-to-r from-orange-500 via-pink-600 to-purple-600 hover:opacity-90 text-white px-4 py-2 rounded-xl font-extrabold shadow-lg shadow-orange-500/20 transition transform active:scale-95 text-xs flex items-center gap-1">
+                    <span>✨</span> <span>SELL (BECHO)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Navigation -->
+    <nav class="bg-slate-950 border-b border-slate-800/80 sticky top-[57px] z-40">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex space-x-3 overflow-x-auto scrollbar-none text-xs font-bold">
+            <button onclick="selectCategory('All')" class="category-btn bg-purple-600 text-white px-4 py-1.5 rounded-full whitespace-nowrap shadow-md shadow-purple-600/30">🔥 All Steal Deals</button>
+            <button onclick="selectCategory('Urgent')" class="category-btn bg-slate-900 hover:bg-slate-800 text-red-400 border border-red-500/30 px-4 py-1.5 rounded-full whitespace-nowrap">⚡ Urgent Sale</button>
+            <button onclick="selectCategory('Wishlist')" class="category-btn bg-slate-900 hover:bg-slate-800 text-pink-400 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">❤️ Saved Wishlist</button>
+            <button onclick="selectCategory('Mobiles')" class="category-btn bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">📱 Phones & Audio</button>
+            <button onclick="selectCategory('Laptops')" class="category-btn bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">💻 Laptops & Gaming</button>
+            <button onclick="selectCategory('Vehicles')" class="category-btn bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">🏍️ Bikes & Scooters</button>
+            <button onclick="selectCategory('Books')" class="category-btn bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">📚 Books & Notes</button>
+            <button onclick="selectCategory('Hostel')" class="category-btn bg-slate-900 hover:bg-slate-800 text-slate-300 px-4 py-1.5 rounded-full whitespace-nowrap border border-slate-800">🛋️ Hostel & Decor</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+        <!-- Google Search Safety & Legit Guarantee Box -->
+        <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/20 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-xl">🛡️</div>
+                <div>
+                    <h2 class="text-sm font-black text-white flex items-center gap-2">
+                        100% Genuine Peer-to-Peer Platform <span class="bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full border border-green-500/30">Scam-Free Guarantee</span>
+                    </h2>
+                    <p class="text-[11px] text-slate-400">Yeh app buyers aur sellers ko directly connect karti hai. No online payment fraud — Saamaan samne dekho aur fir payment karo!</p>
+                </div>
+            </div>
+            <button onclick="autoDetectUserLocation()" id="activeCityBadge" class="text-xs font-bold text-orange-400 bg-orange-500/10 hover:bg-orange-500/20 px-3.5 py-1.5 rounded-full border border-orange-500/30 transition cursor-pointer whitespace-nowrap">
+                📍 Location: Detecting...
+            </button>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 id="feedTitle" class="text-lg md:text-xl font-black text-white tracking-tight">Trending Feed ⚡</h1>
+                <p class="text-xs text-slate-400">Gen Z verified local deals — Direct Buyer-Seller Talk!</p>
+            </div>
+        </div>
+
+        <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+    </main>
+
+    <!-- Seller Profile Modal -->
+    <div id="sellerProfileModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative text-white max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-black text-lg">👤</div>
+                    <div>
+                        <h3 id="sellerProfileName" class="text-base font-black text-white">Seller Profile</h3>
+                        <p id="sellerProfilePhone" class="text-xs text-purple-400 font-bold"></p>
+                    </div>
+                </div>
+                <button onclick="closeSellerProfileModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Seller Active Listings:</h4>
+            <div id="sellerListingsGrid" class="flex-grow overflow-y-auto space-y-3 pr-1"></div>
+        </div>
+    </div>
+
+    <!-- Full-Screen HD Image Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden z-50 flex flex-col items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 text-slate-300 hover:text-white text-3xl font-bold bg-slate-900/80 w-11 h-11 rounded-full flex items-center justify-center z-50 border border-slate-700">&times;</button>
+        
+        <div class="relative max-w-5xl w-full h-[80vh] flex items-center justify-center">
+            <button id="lbPrevBtn" onclick="prevLightboxImage()" class="absolute left-2 md:left-4 bg-slate-900/80 hover:bg-purple-600 text-white p-3 rounded-full z-10 font-bold text-lg border border-slate-700 transition">❮</button>
+            <img id="lightboxImg" src="" class="max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-all duration-200">
+            <button id="lbNextBtn" onclick="nextLightboxImage()" class="absolute right-2 md:right-4 bg-slate-900/80 hover:bg-purple-600 text-white p-3 rounded-full z-10 font-bold text-lg border border-slate-700 transition">❯</button>
+        </div>
+        <p id="lightboxCaption" class="text-xs text-slate-400 mt-3 font-bold bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-800"></p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 mt-12 border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div>
+                <h4 class="text-white font-black text-sm mb-2 flex items-center gap-1.5">
+                    <span>BECH DAA LO</span> <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full border border-purple-500/30">GEN Z MARKETPLACE</span>
+                </h4>
+                <p class="leading-relaxed text-slate-400">India ka trusted local marketplace. Khareedo aur becho bina kisi middleman ya fraud ke. Direct contact, instant deals!</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2">Google Safe & Verification Policy</h4>
+                <ul class="space-y-1.5 text-slate-400">
+                    <li><button onclick="openLegalModal('safety')" class="hover:text-purple-400 transition">🛡️ Buyer Safety Guidelines (Zero Scam Rule)</button></li>
+                    <li><button onclick="openLegalModal('terms')" class="hover:text-purple-400 transition">📜 Terms of Service</button></li>
+                    <li><button onclick="openLegalModal('privacy')" class="hover:text-purple-400 transition">🔒 Direct Connect Privacy Policy</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2">Safety & Scam Report</h4>
+                <p class="leading-relaxed text-slate-400 mb-2">Koi bhi shaqiyaspad (fake) ad dikhe to turant card par bani 🚩 Report button ka istemal karein.</p>
+                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-lg">🔒 SSL Encrypted & Verified Peer-to-Peer</span>
+            </div>
+        </div>
+        <div class="bg-slate-900/50 text-center py-3 text-[11px] text-slate-500 font-medium border-t border-slate-800/50">
+            © BECH DAA LO. Built for Gen Z. Safe, Fast & Direct Deals.
+        </div>
+    </footer>
+
+    <!-- Offer / Bargain Modal -->
+    <div id="bidModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                <h3 class="text-base font-black text-orange-400 flex items-center gap-1.5">
+                    💸 Offer / Counter Price Bhejo
+                </h3>
+                <button onclick="closeBidModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            
+            <p id="bidItemTitle" class="text-xs font-bold text-slate-200 mb-1"></p>
+            <p id="bidCurrentPrice" class="text-xs text-purple-400 font-extrabold mb-3"></p>
+
+            <div class="bg-purple-950/30 border border-purple-500/20 p-2.5 rounded-xl text-[11px] text-purple-300 mb-3">
+                💡 <strong>Lowball Allowed:</strong> Aap seller ko asking price se kam price ka offer (bargain) bhi bhej sakte hain!
+            </div>
+            
+            <div class="mb-3">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Recent Buyer Offers:</span>
+                <div id="bidHistory" class="bg-slate-950 border border-slate-800 rounded-xl p-3 max-h-28 overflow-y-auto text-xs space-y-1.5 mt-1">
+                    <p class="text-slate-500 text-center">Offers load ho rahi hain...</p>
+                </div>
+            </div>
+
+            <form onsubmit="handleBidSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Aapka Price Offer (₹)</label>
+                    <input type="number" id="bidAmountInput" required min="1" placeholder="Apna price likhein (Kam ya zyada)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-bold text-white focus:border-orange-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Aapka Mobile Number</label>
+                    <input type="tel" id="bidPhoneInput" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-orange-500 focus:outline-none">
+                </div>
+                <button type="submit" id="submitBidBtn" class="w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:opacity-90 text-white py-2.5 rounded-xl font-bold text-xs shadow-lg transition">
+                    Send Price Offer 💸
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 shadow-2xl relative text-white">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-white">Account Login / Quick Access 🔑</h3>
+                <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            <form onsubmit="handleAuthLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Aapka Naam / Handle</label>
+                    <input type="text" id="authName" required placeholder="e.g. Rahul Verma" class="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Mobile Number</label>
+                    <input type="tel" id="authPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit phone number" class="w-full px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-purple-500">
+                </div>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-xl font-bold text-xs transition">
+                    Login / Continue 🚀
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Report Ad Modal -->
+    <div id="reportModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 shadow-2xl relative text-white">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                <h3 class="text-base font-black text-red-500">🚩 Report Fake / Scam Listing</h3>
+                <button onclick="closeReportModal()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+            </div>
+            <p id="reportItemTitle" class="text-xs font-bold text-slate-300 mb-3"></p>
+            <form onsubmit="handleReportSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1">Wajah Select Karein:</label>
+                    <select id="reportReason" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white">
+                        <option value="Fraud / Fake Price">Online Advance Payment Maang Raha Hai (Scam)</option>
+                        <option value="Fake Price">Galat / Real Kimat Nahi Hai</option>
+                        <option value="Item Already Sold">Item Pehle Se Bik Gaya</option>
+                        <option value="Wrong Category / Spam">Spam ya Inappropriate Content</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-xl font-bold text-xs">Submit Security Report 🚨</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Legal Safety Modal -->
+    <div id="legalModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative max-h-[80vh] overflow-y-auto text-white">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                <h3 id="legalModalTitle" class="text-base font-black text-purple-400">Safety Policy</h3>
+                <button onclick="closeLegalModal()" class="text-slate-400 text-2xl font-bold">&times;</button>
+            </div>
+            <div id="legalModalContent" class="text-xs text-slate-300 space-y-2.5 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- Sell Modal Form -->
+    <div id="sellModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-white">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 id="sellModalTitle" class="text-lg font-black text-white">Naya Item Becho 🚀</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            <form id="sellForm" onsubmit="handlePostListing(event)" class="space-y-4">
+                <input type="hidden" id="editItemId" value="">
+                
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Category Select Karein</label>
+                    <select id="itemCategory" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                        <option value="Mobiles">📱 Phones & Audio</option>
+                        <option value="Laptops">💻 Laptops & Gaming</option>
+                        <option value="Vehicles">🏍️ Bikes & Scooters</option>
+                        <option value="Books">📚 Books & Notes</option>
+                        <option value="Hostel">🛋️ Hostel & Decor</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Item Title / Name</label>
+                    <input type="text" id="itemTitle" required maxlength="60" placeholder="e.g. iPhone 13 128GB, Royal Enfield..." class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-bold uppercase text-slate-400">City (Shahar)</label>
+                            <button type="button" onclick="detectLocation()" class="text-[10px] text-orange-400 font-bold hover:underline">🎯 GPS</button>
+                        </div>
+                        <input type="text" id="itemCity" required placeholder="e.g. Patna, Delhi" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Pincode</label>
+                        <input type="text" id="itemPincode" required pattern="[0-9]{6}" maxlength="6" placeholder="e.g. 800001" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Price (Kimat ₹)</label>
+                        <input type="number" id="itemPrice" min="10" required placeholder="e.g. 4500" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Mobile / WhatsApp No.</label>
+                        <input type="tel" id="itemPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="e.g. 9876543210" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white">
+                    </div>
+                </div>
+
+                <!-- Toggles Box: Phone Hide & Urgent Sale -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-200">Phone Number Chupayein? 🔒</p>
+                            <p class="text-[10px] text-slate-400">Direct Chat/WA only</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="hidePhoneToggle" class="sr-only peer">
+                            <div class="w-8 h-4 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+
+                    <div class="bg-red-950/20 border border-red-500/30 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-red-400">🔥 Urgent Sale Tag?</p>
+                            <p class="text-[10px] text-slate-400">Jaldi bechne ke liye high highlight</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="urgentToggle" class="sr-only peer">
+                            <div class="w-8 h-4 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-red-600"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-bold uppercase text-slate-400">Photos Upload 📸 (Multiple Allowed)</label>
+                        <span class="text-[10px] text-emerald-400 font-bold">✨ HD / High Quality Allowed</span>
+                    </div>
+                    <input type="file" id="itemImageFiles" accept="image/*" multiple class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 text-xs text-slate-400 cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Description (Condition/Detail)</label>
+                    <textarea id="itemDesc" rows="3" required maxlength="300" placeholder="Condition kaisa hai? Bill & box available hai?" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 font-medium text-xs text-white"></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-orange-500 via-pink-600 to-purple-600 hover:opacity-90 text-white py-3 rounded-xl font-black shadow-lg transition text-xs tracking-wide">
+                    POST ITEM NOW 🚀
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full shadow-2xl flex flex-col h-[480px] overflow-hidden">
+            <div class="bg-purple-900/60 p-4 border-b border-purple-800 flex justify-between items-center">
+                <div>
+                    <h3 id="chatModalTitle" class="font-bold text-sm leading-tight">Seller Chat</h3>
+                    <p id="chatModalSub" class="text-[10px] text-purple-200">Direct message</p>
+                </div>
+                <button onclick="closeChatModal()" class="text-white hover:text-slate-300 text-2xl font-bold">&times;</button>
+            </div>
+
+            <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 bg-slate-950 text-xs"></div>
+
+            <form onsubmit="sendChatMessage(event)" class="p-3 bg-slate-900 border-t border-slate-800 flex gap-2">
+                <input type="text" id="chatInput" required placeholder="Apna message likhein..." class="flex-grow px-3 py-2 bg-slate-950 border border-slate-800 text-white rounded-xl text-xs focus:outline-none focus:border-purple-500">
+                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl text-xs font-bold">Bhejo 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inbox Modal -->
+    <div id="inboxModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative max-h-[80vh] flex flex-col text-white">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-white">Messages Inbox 💬</h3>
+                <button onclick="closeInboxModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            <div id="inboxList" class="flex-grow overflow-y-auto space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-950 text-white px-5 py-3 rounded-2xl shadow-2xl transform translate-y-32 transition-transform duration-300 z-50 text-xs font-bold border border-slate-800 flex items-center gap-2">
+        <span>🔔</span> <span id="toastMessage">Notification</span>
+    </div>
+
+    <script>
+        // Supabase Configurations (UNTOUCHED - NO CHANGES TO DATA STORE)
+        const SUPABASE_URL = 'https://tngoadpgrtnntumvlbqr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_WbAhTj7zIu_uZZeF4qIOsg_tX7p156A';
+        
+        let supabaseClient = null;
+
+        try {
+            if (window.supabase && SUPABASE_KEY) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch (e) {
+            console.error('Supabase Initialization Exception:', e);
+        }
+
+        let listings = [];
+        let currentCategory = 'All';
+        let activeChatListing = null;
+        let activeBidListing = null;
+        let currentUser = JSON.parse(localStorage.getItem('bechdaalo_user') || 'null');
+        let wishlist = JSON.parse(localStorage.getItem('bechdaalo_wishlist') || '[]');
+        let localMessages = JSON.parse(localStorage.getItem('bechdaalo_messages') || '[]');
+
+        // Active Lightbox State
+        let currentLightboxImages = [];
+        let currentLightboxIndex = 0;
+
+        function updateAuthUI() {
+            const statusText = document.getElementById('userStatusText');
+            if (currentUser && currentUser.phone) {
+                statusText.textContent = currentUser.name || 'Account';
+            } else {
+                statusText.textContent = 'Login';
+            }
+        }
+
+        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+
+        function handleAuthLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('authName').value.trim();
+            const phone = document.getElementById('authPhone').value.trim();
+            currentUser = { name, phone, loggedInAt: new Date().toISOString() };
+            localStorage.setItem('bechdaalo_user', JSON.stringify(currentUser));
+            updateAuthUI();
+            closeAuthModal();
+            showToast(`Welcome ${name}! Verified ✅`);
+        }
+
+        function checkAuthAndOpenSellModal() {
+            if (!currentUser) {
+                showToast('Pehle login karein phir item bechein! 🔒');
+                openAuthModal();
+                return;
+            }
+            document.getElementById('editItemId').value = '';
+            document.getElementById('sellModalTitle').textContent = 'Naya Item Becho 🚀';
+            document.getElementById('submitBtn').textContent = 'POST ITEM NOW 🚀';
+            document.getElementById('itemPhone').value = currentUser.phone || '';
+            document.getElementById('urgentToggle').checked = false;
+            openModal();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, function (m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        function toggleWishlist(itemId) {
+            const index = wishlist.indexOf(String(itemId));
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showToast("Wishlist se hata diya gaya! 💔");
+            } else {
+                wishlist.push(String(itemId));
+                showToast("Wishlist me save ho gaya! ❤️");
+            }
+            localStorage.setItem('bechdaalo_wishlist', JSON.stringify(wishlist));
+            filterListings();
+        }
+
+        function toggleWishlistFilter() {
+            if (currentCategory === 'Wishlist') {
+                selectCategory('All');
+            } else {
+                selectCategory('Wishlist');
+            }
+        }
+
+        function openLightbox(imagesJson, index = 0, itemId = null) {
+            try {
+                currentLightboxImages = typeof imagesJson === 'string' ? JSON.parse(decodeURIComponent(imagesJson)) : imagesJson;
+            } catch (e) {
+                currentLightboxImages = [imagesJson];
+            }
+            if (!currentLightboxImages || currentLightboxImages.length === 0) return;
+            
+            currentLightboxIndex = index;
+            updateLightboxUI();
+            document.getElementById('lightboxModal').classList.remove('hidden');
+
+            if (itemId) {
+                incrementViews(itemId);
+            }
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        function updateLightboxUI() {
+            const imgEl = document.getElementById('lightboxImg');
+            const captionEl = document.getElementById('lightboxCaption');
+            imgEl.src = currentLightboxImages[currentLightboxIndex];
+            captionEl.textContent = `Photo ${currentLightboxIndex + 1} of ${currentLightboxImages.length} (HD Zoom View)`;
+        }
+
+        function prevLightboxImage() {
+            if (currentLightboxImages.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxImages.length) % currentLightboxImages.length;
+            updateLightboxUI();
+        }
+
+        function nextLightboxImage() {
+            if (currentLightboxImages.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxImages.length;
+            updateLightboxUI();
+        }
+
+        function autoDetectUserLocation() {
+            if (navigator.geolocation) {
+                showToast('Location detect ho rahi hai... 📍');
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    try {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+                        const data = await res.json();
+                        
+                        const city = data.address.city || data.address.town || data.address.state_district || 'Patna';
+                        
+                        const badge = document.getElementById('activeCityBadge');
+                        if (badge) badge.textContent = `📍 Location: ${city}`;
+                        
+                        const citySelect = document.getElementById('headerCityFilter');
+                        if (citySelect) {
+                            let exists = Array.from(citySelect.options).some(opt => opt.value.toLowerCase() === city.toLowerCase());
+                            if (!exists) {
+                                const newOpt = document.createElement('option');
+                                newOpt.value = city;
+                                newOpt.textContent = `${city} (Live 📍)`;
+                                newOpt.className = 'bg-slate-900';
+                                citySelect.appendChild(newOpt);
+                            }
+                            citySelect.value = city;
+                            filterListings();
+                        }
+                        showToast(`Location set: ${city} 📍`);
+                    } catch (err) {
+                        console.log("GPS Error:", err);
+                    }
+                });
+            }
+        }
+
+        async function fetchListings() {
+            if (!supabaseClient) return renderListings([]);
+            try {
+                const { data, error } = await supabaseClient.from('listings').select('*').order('created_at', { ascending: false });
+                if (error) {
+                    console.error('Fetch Error:', error.message);
+                    renderListings([]);
+                } else {
+                    listings = data || [];
+                    filterListings();
+                }
+            } catch (err) {
+                console.error('Unexpected fetch error:', err);
+                renderListings([]);
+            }
+        }
+
+        // Increment Ad Views Counter
+        async function incrementViews(id) {
+            if (!supabaseClient) return;
+            const item = listings.find(l => String(l.id) === String(id));
+            if (!item) return;
+            
+            const currentViews = (item.views || 0) + 1;
+            item.views = currentViews;
+            
+            try {
+                await supabaseClient.from('listings').update({ views: currentViews }).eq('id', id);
+            } catch(e) { console.log("Views update err", e); }
+        }
+
+        // Toggle Mark as Sold
+        async function toggleSoldState(id, currentState) {
+            if (!supabaseClient) return;
+            const newState = !currentState;
+            showToast(newState ? 'Item ko "SOLD OUT" mark kiya ja raha hai...' : 'Item ko fir se AVAILABLE kiya ja raha hai...');
+
+            const { error } = await supabaseClient.from('listings').update({ is_sold: newState }).eq('id', id);
+            if (error) {
+                alert('Update Error: ' + error.message);
+            } else {
+                showToast(newState ? 'Item Marked as SOLD OUT! 🛑' : 'Item Marked as Active! ✅');
+                fetchListings();
+            }
+        }
+
+        // Share Button (Native Web Share API + WhatsApp Fallback)
+        function shareListing(title, price, city) {
+            const shareText = `🔥 Check out this deal on BECH DAA LO: "${title}" for ₹${price} in ${city}! Direct P2P Bargain allowed.`;
+            const shareUrl = window.location.href;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `BECH DAA LO - ${title}`,
+                    text: shareText,
+                    url: shareUrl,
+                }).catch((err) => console.log('Share canceled'));
+            } else {
+                const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+                window.open(waUrl, '_blank');
+            }
+        }
+
+        // Open Seller Profile Page Modal
+        function openSellerProfile(phoneNum) {
+            const sellerItems = listings.filter(l => (l.phone || l.user_phone) === phoneNum);
+            document.getElementById('sellerProfileName').textContent = `Seller (${sellerItems.length} Products)`;
+            document.getElementById('sellerProfilePhone').textContent = `📞 ${phoneNum}`;
+
+            const grid = document.getElementById('sellerListingsGrid');
+            if (sellerItems.length === 0) {
+                grid.innerHTML = `<p class="text-slate-500 text-center py-6">Is seller ka koi aur item live nahi hai.</p>`;
+            } else {
+                grid.innerHTML = sellerItems.map(item => `
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <img src="${escapeHtml((item.images && item.images[0]) || item.image_url)}" class="w-12 h-12 rounded-xl object-cover bg-slate-900">
+                            <div>
+                                <h5 class="text-xs font-bold text-white leading-tight line-clamp-1">${escapeHtml(item.title)}</h5>
+                                <p class="text-xs text-orange-400 font-black">₹${Number(item.price || 0).toLocaleString('en-IN')}</p>
+                            </div>
+                        </div>
+                        <button onclick="closeSellerProfileModal(); openLightbox('${encodeURIComponent(JSON.stringify(item.images || [item.image_url]))}', 0, '${item.id}')" class="bg-purple-600/80 hover:bg-purple-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl transition">View Item 👁️</button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('sellerProfileModal').classList.remove('hidden');
+        }
+
+        function closeSellerProfileModal() { document.getElementById('sellerProfileModal').classList.add('hidden'); }
+
+        function renderListings(itemsToRender) {
+            const grid = document.getElementById('listingsGrid');
+            if (!itemsToRender || itemsToRender.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 bg-slate-900/50 rounded-3xl border border-dashed border-slate-800">
+                        <span class="text-4xl mb-2 block">${currentCategory === 'Wishlist' ? '💔' : '🔍'}</span>
+                        <h3 class="font-bold text-white text-sm">${currentCategory === 'Wishlist' ? 'Koi wishlist item saved nahi hai!' : 'Koi item nahi mila!'}</h3>
+                        <p class="text-xs text-slate-400 mt-1">${currentCategory === 'Wishlist' ? 'Card par bane ❤️ Heart icon par click karke save karein.' : 'Pehle seller banein aur apna saamaan bechein.'}</p>
+                        <button onclick="checkAuthAndOpenSellModal()" class="mt-4 bg-purple-600 text-white px-4 py-2 rounded-xl font-bold text-xs">+ Becho Saamaan</button>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = itemsToRender.map(item => {
+                const phoneNum = item.phone || item.user_phone || '9876543210';
+                const whatsappUrl = `https://wa.me/91${phoneNum}?text=Hello!%20Main%20BECH%20DAA%20LO%20par%20aapka%20item%20"${encodeURIComponent(item.title)}"%20dekha.%20Kya%20available%20hai?`;
+                const callUrl = `tel:${phoneNum}`;
+
+                let images = Array.isArray(item.images) && item.images.length > 0 ? item.images : [item.image_url || 'https://placehold.co/400x300/1e293b/94a3b8?text=No+Photo'];
+                const isPhoneHidden = item.hide_phone === true;
+                const isOwner = currentUser && (currentUser.phone === phoneNum);
+                const isSavedInWishlist = wishlist.includes(String(item.id));
+                const encodedImagesJson = encodeURIComponent(JSON.stringify(images));
+                const isUrgent = item.is_urgent === true;
+                const isSold = item.is_sold === true;
+                const viewCount = item.views || 1;
+
+                return `
+                <div class="bg-slate-900 rounded-2xl border ${isUrgent ? 'urgent-glow' : 'border-slate-800'} hover:border-purple-500/50 transition-all duration-300 overflow-hidden flex flex-col group shadow-lg relative">
+                    
+                    ${isSold ? `
+                        <div class="absolute inset-0 bg-black/75 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-4">
+                            <span class="bg-red-600 text-white font-black text-sm px-4 py-1.5 rounded-full shadow-2xl tracking-widest uppercase border border-red-400">🛑 SOLD OUT</span>
+                            <p class="text-[10px] text-slate-300 mt-2 font-semibold">Yeh item bik gaya hai</p>
+                            ${isOwner ? `
+                                <button onclick="toggleSoldState('${item.id}', true)" class="mt-3 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl border border-emerald-400/50">Re-activate Item 🔄</button>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openLightbox('${encodedImagesJson}', 0, '${item.id}')">
+                        <img src="${escapeHtml(images[0])}" alt="${escapeHtml(item.title)}" class="w-full h-44 object-cover bg-slate-950 group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/1e293b/94a3b8?text=No+Photo'">
+                        
+                        <span class="absolute top-2 left-2 bg-black/70 backdrop-blur-md text-slate-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-slate-700">📍 ${escapeHtml(item.city) || 'India'}</span>
+                        
+                        ${isUrgent ? `<span class="absolute top-2 left-20 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg animate-bounce">🔥 URGENT</span>` : ''}
+
+                        ${images.length > 1 ? `<span class="absolute bottom-2 left-2 bg-purple-950/80 backdrop-blur-md text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-purple-500/30">📸 ${images.length} Photos</span>` : ''}
+
+                        <span class="absolute bottom-2 right-2 bg-slate-950/80 backdrop-blur-md text-slate-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-800">👁️ ${viewCount}</span>
+
+                        <div class="absolute top-2 right-2 flex items-center gap-1.5" onclick="event.stopPropagation()">
+                            <button onclick="shareListing('${escapeHtml(item.title)}', ${item.price}, '${escapeHtml(item.city)}')" title="Share Ad" class="w-7 h-7 rounded-full bg-slate-950/80 hover:scale-110 backdrop-blur-md flex items-center justify-center border border-slate-700 transition text-xs">
+                                📤
+                            </button>
+
+                            <button onclick="toggleWishlist('${item.id}')" title="Save to Wishlist" class="w-7 h-7 rounded-full bg-slate-950/80 hover:scale-110 backdrop-blur-md flex items-center justify-center border border-slate-700 transition text-xs">
+                                ${isSavedInWishlist ? '❤️' : '🤍'}
+                            </button>
+
+                            ${isOwner ? `
+                                <button onclick="toggleSoldState('${item.id}',${isSold})" class="bg-amber-600/90 hover:bg-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-md transition">🛑 Sold?</button>
+                                <button onclick="editListing('${item.id}')" class="bg-blue-600/90 hover:bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-md transition">✏️ Edit</button>
+                                <button onclick="deleteListing('${item.id}')" class="bg-red-600/90 hover:bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-md transition">🗑️</button>
+                            ` : `
+                                <button onclick="openReportModal('${escapeHtml(item.title)}')" class="bg-black/50 hover:bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-md transition">🚩 Report</button>
+                            `}
+                        </div>
+                    </div>
+
+                    <div class="p-4 flex flex-col flex-grow">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-bold text-white text-base leading-tight line-clamp-1">${escapeHtml(item.title)}</h3>
+                        </div>
+
+                        <!-- Seller Badge Link -->
+                        <div class="mb-2">
+                            <button onclick="openSellerProfile('${phoneNum}')" class="text-[10px] text-purple-400 hover:text-purple-300 font-bold flex items-center gap-1">
+                                <span>👤 Seller Profile</span>
+                                <span class="bg-purple-500/10 px-1.5 py-0.2 rounded border border-purple-500/20">Verified</span>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-500">₹${Number(item.price || 0).toLocaleString('en-IN')}</span>
+                            <button onclick="openBidModal('${escapeHtml(item.title)}', ${item.price})" class="bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+                                💸 Offer Price
+                            </button>
+                        </div>
+                        <p class="text-slate-400 text-xs mb-3 flex-grow line-clamp-2 leading-relaxed">${escapeHtml(item.description)}</p>
+
+                        <div class="grid ${isPhoneHidden ? 'grid-cols-2' : 'grid-cols-3'} gap-1.5 mt-auto pt-3 border-t border-slate-800">
+                            ${!isPhoneHidden ? `<a href="${callUrl}" onclick="incrementViews('${item.id}')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 py-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-0.5 transition">📞 Call</a>` : ''}
+                            <button onclick="openChatModal('${escapeHtml(item.title)}', '${phoneNum}'); incrementViews('${item.id}');" class="bg-purple-600 hover:bg-purple-700 text-white py-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-0.5 transition">💬 Chat</button>
+                            <a href="${whatsappUrl}" target="_blank" onclick="incrementViews('${item.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 rounded-xl text-[10px] font-bold text-center flex items-center justify-center gap-0.5 transition">💬 WA</a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        async function deleteListing(id) {
+            if (!confirm("Kya aap sach me is product ko delete karna chahte ho? 🗑️")) return;
+            if (!supabaseClient) return;
+
+            showToast("Deleting product... ⏳");
+            const { error } = await supabaseClient.from('listings').delete().eq('id', id);
+            
+            if (error) {
+                alert("Delete Error: " + error.message);
+            } else {
+                showToast("Product successfully delete ho gaya! 🗑️");
+                fetchListings();
+            }
+        }
+
+        function editListing(id) {
+            const item = listings.find(l => String(l.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('editItemId').value = item.id;
+            document.getElementById('itemCategory').value = item.category || 'Mobiles';
+            document.getElementById('itemTitle').value = item.title || '';
+            document.getElementById('itemCity').value = item.city || '';
+            document.getElementById('itemPincode').value = item.pincode || '';
+            document.getElementById('itemPrice').value = item.price || '';
+            document.getElementById('itemPhone').value = item.phone || item.user_phone || '';
+            document.getElementById('hidePhoneToggle').checked = item.hide_phone || false;
+            document.getElementById('urgentToggle').checked = item.is_urgent || false;
+            document.getElementById('itemDesc').value = item.description || '';
+
+            document.getElementById('sellModalTitle').textContent = 'Item Update Karein ✏️';
+            document.getElementById('submitBtn').textContent = 'UPDATE ITEM NOW 🚀';
+            openModal();
+        }
+
+        async function openBidModal(itemTitle, itemPrice) {
+            if (!currentUser) {
+                showToast('Offer bhejne ke liye pehle login karein! 🔒');
+                openAuthModal();
+                return;
+            }
+            activeBidListing = { title: itemTitle, price: itemPrice };
+            document.getElementById('bidItemTitle').textContent = `Item: "${itemTitle}"`;
+            document.getElementById('bidCurrentPrice').textContent = `Listed Price: ₹${Number(itemPrice).toLocaleString('en-IN')}`;
+            document.getElementById('bidPhoneInput').value = currentUser.phone || '';
+            document.getElementById('bidAmountInput').value = itemPrice;
+            document.getElementById('bidModal').classList.remove('hidden');
+            fetchAndRenderBids(itemTitle);
+        }
+
+        function closeBidModal() { document.getElementById('bidModal').classList.add('hidden'); }
+
+        async function fetchAndRenderBids(itemTitle) {
+            const historyEl = document.getElementById('bidHistory');
+            if (!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.from('bids').select('*').eq('item_title', itemTitle).order('created_at', { ascending: false });
+                if (error || !data || data.length === 0) {
+                    historyEl.innerHTML = `<p class="text-slate-500 text-center py-2">Abhi tak koi offer nahi aayi hai. Pehla offer aap bhejein!</p>`;
+                } else {
+                    historyEl.innerHTML = data.map(b => `
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-1">
+                            <span class="font-bold text-slate-300">${escapeHtml(b.bidder_name || 'Buyer')}: <span class="text-orange-400 font-extrabold">₹${Number(b.bid_amount).toLocaleString('en-IN')}</span></span>
+                            <span class="text-[9px] text-slate-500">${new Date(b.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                historyEl.innerHTML = `<p class="text-slate-500 text-center py-2">Offers load nahi ho payi.</p>`;
+            }
+        }
+
+        async function handleBidSubmit(e) {
+            e.preventDefault();
+            if (!supabaseClient) return;
+
+            const bidAmount = parseFloat(document.getElementById('bidAmountInput').value);
+            const phone = document.getElementById('bidPhoneInput').value.trim();
+
+            if (!bidAmount || !activeBidListing) return;
+
+            const submitBtn = document.getElementById('submitBidBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending Offer... ⏳';
+
+            const newBid = {
+                item_title: activeBidListing.title,
+                bidder_name: currentUser ? currentUser.name : 'Buyer',
+                bidder_phone: phone,
+                bid_amount: bidAmount
+            };
+
+            const { error } = await supabaseClient.from('bids').insert([newBid]);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Price Offer 💸';
+
+            if (error) {
+                alert('Offer Submission Error: ' + error.message);
+            } else {
+                showToast('Aapki Offer Seller Ko Bhej Di Gayi Hai! 🎉');
+                document.getElementById('bidAmountInput').value = '';
+                fetchAndRenderBids(activeBidListing.title);
+            }
+        }
+
+        function openReportModal(title) {
+            document.getElementById('reportItemTitle').textContent = `Item: "${title}"`;
+            document.getElementById('reportModal').classList.remove('hidden');
+        }
+        function closeReportModal() { document.getElementById('reportModal').classList.add('hidden'); }
+
+        function handleReportSubmit(e) {
+            e.preventDefault();
+            closeReportModal();
+            showToast(`Report submitted for review. Thank you for keeping community safe! 🛡️`);
+        }
+
+        function openLegalModal(type) {
+            const titleEl = document.getElementById('legalModalTitle');
+            const contentEl = document.getElementById('legalModalContent');
+
+            if (type === 'safety') {
+                titleEl.textContent = '🛡️ Zero-Scam Buyer & Seller Guidelines';
+                contentEl.innerHTML = `<p><strong>1. Advance Token Na Dein:</strong> Kisi bhi haal me pehle UPI/Paytm mat karein. Product samne dekhein aur fir payment karein.</p><p><strong>2. Safe Location:</strong> Direct meetup ke liye public places (Metro station, market) ka chunav karein.</p>`;
+            } else if (type === 'terms') {
+                titleEl.textContent = '📜 Terms of Service';
+                contentEl.innerHTML = `<p>BECH DAA LO direct P2P local marketplace hai. Fraud ya fake listings strictly banned hain.</p>`;
+            } else if (type === 'privacy') {
+                titleEl.textContent = '🔒 Privacy & Security Policy';
+                contentEl.innerHTML = `<p>Aapka contact number safe rakha jata hai. Phone number hide karne ka option bhi available hai.</p>`;
+            }
+            document.getElementById('legalModal').classList.remove('hidden');
+        }
+        function closeLegalModal() { document.getElementById('legalModal').classList.add('hidden'); }
+
+        function openModal() { document.getElementById('sellModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('sellModal').classList.add('hidden'); }
+
+        function openChatModal(itemTitle, phone) {
+            activeChatListing = { title: itemTitle, phone: phone };
+            document.getElementById('chatModalTitle').textContent = itemTitle;
+            document.getElementById('chatModalSub').textContent = `Seller: ${phone}`;
+            renderChatMessages();
+            document.getElementById('chatModal').classList.remove('hidden');
+        }
+        function closeChatModal() { document.getElementById('chatModal').classList.add('hidden'); }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            if (!activeChatListing) return;
+            const filtered = localMessages.filter(m => m.title === activeChatListing.title);
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-500 my-auto py-12">Message likhein aur seller se baat karein!</p>`;
+                return;
+            }
+            container.innerHTML = filtered.map(m => `
+                <div class="flex flex-col ${m.sender === 'you' ? 'items-end' : 'items-start'}">
+                    <div class="max-w-[80%] rounded-2xl px-3.5 py-2 ${m.sender === 'you' ? 'bg-purple-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 rounded-bl-none'}">
+                        <p>${escapeHtml(m.text)}</p>
+                    </div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !activeChatListing) return;
+
+            localMessages.push({ title: activeChatListing.title, phone: activeChatListing.phone, text, sender: 'you', time: new Date().toLocaleTimeString() });
+            localStorage.setItem('bechdaalo_messages', JSON.stringify(localMessages));
+            input.value = '';
+            renderChatMessages();
+            showToast('Message bhej diya gaya! 📩');
+        }
+
+        function openInboxModal() {
+            const inboxList = document.getElementById('inboxList');
+            if (localMessages.length === 0) {
+                inboxList.innerHTML = `<p class="text-center text-slate-500 text-xs py-8">Aapke paas abhi koi chats nahi hain.</p>`;
+            } else {
+                inboxList.innerHTML = localMessages.map(c => `
+                    <div onclick="closeInboxModal(); openChatModal('${escapeHtml(c.title)}', '${c.phone}')" class="p-3 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 rounded-2xl cursor-pointer transition">
+                        <h4 class="font-bold text-white text-xs">${escapeHtml(c.title)}</h4>
+                        <p class="text-[11px] text-slate-400 line-clamp-1">${escapeHtml(c.text)}</p>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('inboxModal').classList.remove('hidden');
+        }
+        function closeInboxModal() { document.getElementById('inboxModal').classList.add('hidden'); }
+
+        function selectCategory(category) { 
+            currentCategory = category; 
+            const feedTitle = document.getElementById('feedTitle');
+            if (category === 'Wishlist') {
+                feedTitle.textContent = "Saved Wishlist Items ❤️";
+            } else if (category === 'Urgent') {
+                feedTitle.textContent = "🔥 Urgent Sale Items (Fast Deals)";
+            } else {
+                feedTitle.textContent = category === 'All' ? "Trending Feed ⚡" : `${category} Deals ⚡`;
+            }
+            filterListings(); 
+        }
+
+        function filterListings() {
+            const query = (document.getElementById('searchInput').value || '').toLowerCase();
+            const selectedCity = document.getElementById('headerCityFilter').value;
+            const minPrice = parseFloat(document.getElementById('minPriceInput')?.value) || 0;
+            const maxPrice = parseFloat(document.getElementById('maxPriceInput')?.value) || Infinity;
+
+            const filtered = listings.filter(item => {
+                const isWishlistCategory = currentCategory === 'Wishlist';
+                const isUrgentCategory = currentCategory === 'Urgent';
+
+                const matchesWishlist = isWishlistCategory ? wishlist.includes(String(item.id)) : true;
+                const matchesUrgent = isUrgentCategory ? item.is_urgent === true : true;
+
+                const matchesCategory = isWishlistCategory || isUrgentCategory || currentCategory === 'All' || item.category === currentCategory;
+                const matchesSearch = (item.title || '').toLowerCase().includes(query) || (item.description || '').toLowerCase().includes(query);
+                const matchesCity = selectedCity === 'All' || ((item.city || '').toLowerCase().includes(selectedCity.toLowerCase()));
+
+                const price = Number(item.price || 0);
+                const matchesPrice = price >= minPrice && price <= maxPrice;
+
+                return matchesWishlist && matchesUrgent && matchesCategory && matchesSearch && matchesCity && matchesPrice;
+            });
+            renderListings(filtered);
+        }
+
+        function detectLocation() {
+            if (navigator.geolocation) {
+                showToast('Location detect ho rahi hai... 📍');
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    try {
+                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`);
+                        const data = await res.json();
+                        const city = data.address.city || data.address.town || 'Patna';
+                        document.getElementById('itemCity').value = city;
+                        document.getElementById('itemPincode').value = data.address.postcode || '800001';
+                        showToast(`Location Found: ${city}`);
+                    } catch (e) { document.getElementById('itemCity').value = 'Patna'; }
+                });
+            }
+        }
+
+        function processRawImageFiles(files, callback) {
+            if (!files || files.length === 0) {
+                callback(null);
+                return;
+            }
+            const imagesArray = [];
+            let processedCount = 0;
+
+            Array.from(files).forEach((file) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    imagesArray.push(event.target.result);
+                    processedCount++;
+                    if (processedCount === files.length) {
+                        callback(imagesArray);
+                    }
+                };
+            });
+        }
+
+        async function handlePostListing(e) {
+            e.preventDefault();
+            if (!supabaseClient) return;
+
+            const editId = document.getElementById('editItemId').value;
+            const title = document.getElementById('itemTitle').value.trim();
+            const desc = document.getElementById('itemDesc').value.trim();
+            const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+            const phoneVal = document.getElementById('itemPhone').value.trim();
+            const cityVal = document.getElementById('itemCity').value.trim();
+
+            const files = document.getElementById('itemImageFiles').files;
+            const submitBtn = document.getElementById('submitBtn');
+
+            submitBtn.textContent = 'Saving Changes... ⏳';
+            submitBtn.disabled = true;
+
+            processRawImageFiles(files, async (uploadedImages) => {
+                let payload = {
+                    title: title,
+                    category: document.getElementById('itemCategory').value,
+                    city: cityVal,
+                    pincode: document.getElementById('itemPincode').value.trim(),
+                    price: price,
+                    phone: phoneVal,
+                    user_phone: phoneVal,
+                    hide_phone: document.getElementById('hidePhoneToggle').checked,
+                    is_urgent: document.getElementById('urgentToggle').checked,
+                    location: cityVal,
+                    description: desc
+                };
+
+                if (uploadedImages && uploadedImages.length > 0) {
+                    payload.image_url = uploadedImages[0];
+                    payload.images = uploadedImages;
+                }
+
+                let response;
+                if (editId) {
+                    response = await supabaseClient.from('listings').update(payload).eq('id', editId);
+                } else {
+                    if (!uploadedImages) {
+                        payload.image_url = 'https://placehold.co/400x300/1e293b/94a3b8?text=No+Photo';
+                        payload.images = [payload.image_url];
+                    }
+                    payload.views = 1;
+                    payload.is_sold = false;
+                    response = await supabaseClient.from('listings').insert([payload]);
+                }
+
+                submitBtn.disabled = false;
+
+                if (response.error) {
+                    alert('Database Error: ' + response.error.message);
+                    submitBtn.textContent = editId ? 'UPDATE ITEM NOW 🚀' : 'POST ITEM NOW 🚀';
+                } else {
+                    closeModal();
+                    document.getElementById('sellForm').reset();
+                    document.getElementById('editItemId').value = '';
+                    fetchListings();
+                    showToast(editId ? 'Item Updated! 🎉' : 'Item Live & Posted! 🎉');
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => { toast.classList.add('translate-y-32'); }, 4000);
+        }
+
+        window.onload = function() {
+            updateAuthUI();
+            fetchListings();
+            autoDetectUserLocation();
+        }
+    </script>
+</body>
+</html>
